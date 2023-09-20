@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <title>Nomina</title>
+    <script src=".//main.js" type="module" defer></script>
+</head>
+<body>
+     <h1>Nomina</h1>
+     <form >    
+        <!--ID , producto, precio, ACCIONES-->
+       
+        <input type="text" name="producto" placeholder="ingresa" required> <br>
+        <input type="number" name="precio" placeholder="ingresa" required> <br>
+        <input type="submit" value="calcular">
+    </form>
+
+
+
+     <table border="solid">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>ACCIONES</th>
+                
+
+            </tr>
+        </thead>
+        <br>
+<tbody id="myData">
+    <tr>
+        <th>1</th>
+        <th>alimentacion</th>
+        <th>300</th>
+        <td><button style="background-color: blue; color: white;">editar</button> <button style="background-color: red; color: white; ">eliminar</button> </td>
+        
+
+    </tr>
+</tbody>
+    </table>
+
+
+</body>
+</html>
