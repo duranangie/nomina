@@ -3,7 +3,7 @@ const apiUrl = 'https://650a3b71f6553137159c8368.mockapi.io';
 
 // Variable para almacenar el ID del registro que se está editando
 let editingNominaId = null;
-
+let nominas = [];
 // Función para crear un nuevo registro en la nómina
 async function createNomina(nominaData) {
     try {
@@ -26,6 +26,7 @@ async function getNominas() {
     try {
         const response = await fetch(`${apiUrl}/nomina`);
         const data = await response.json();
+        console.log('Datos de nominas obtenidos:', data); // Agregar esta línea para depurar
         return data;
     } catch (error) {
         console.error('Error al obtener los registros de nómina:', error);
@@ -68,51 +69,74 @@ async function deleteNomina(nominaId) {
 
 // Función para llenar la tabla con los registros de nómina
 async function fillNominaTable() {
-    const nominas = await getNominas();
-    const tableBody = document.querySelector('#nominaTable tbody');
-    tableBody.innerHTML = '';
+    try {
+        nominas = await getNominas();
+        console.log('Nominas cargadas:', nominas);
+        const tableBody = document.querySelector('#nominaTable tbody');
+        tableBody.innerHTML = '';
 
-    for (const nomina of nominas) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${nomina.id}</td>
-            <td>${nomina.nombre}</td>
-            <td>${nomina.ingreso || '-'}</td>
-            <td>${nomina.salario}</td>
-            <td>
-                <button onclick="editNomina(${nomina.id})" style="background-color: blue; color: white;">Editar</button>
-                <button class="delete-button" data-id="${nomina.id}" style="background-color: red; color: white;">Eliminar</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    }
+        for (const nomina of nominas) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${nomina.id}</td>
+                <td>${nomina.nombre}</td>
+                <td>${nomina.ingreso || '-'}</td>
+                <td>${nomina.salario}</td>
+                <td>
+                <button data-id="${nomina.id}" class="edit-button" style="background-color: blue; color: white;">Editar</button>
+                <button data-id="${nomina.id}" class="delete-button" style="background-color: red; color: white;">Eliminar</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
 
-    // Agregar evento a los botones de eliminar
-    const deleteButtons = document.querySelectorAll(".delete-button");
-    deleteButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const nominaId = button.getAttribute('data-id');
-            deleteNominaRow(nominaId);
+        // Agregar evento a los botones de eliminar
+        const deleteButtons = document.querySelectorAll(".delete-button");
+        deleteButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const nominaId = button.getAttribute('data-id');
+                deleteNominaRow(nominaId);
+            });
         });
-    });
+
+   
+        // Agregar evento a los botones de editar
+        const editButtons = document.querySelectorAll(".edit-button");
+        editButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const nominaId = button.getAttribute('data-id');
+                console.log('Botón de edición clickeado con ID:', nominaId);
+                editNomina(nominaId);
+            });
+        });
+
+
+    } catch (error) {
+        console.error('Error al obtener las nominas:', error);
+    }
 }
+
+
+
 
 // Función para editar un registro de nómina
 function editNomina(nominaId) {
     // Busca el registro con el ID correspondiente en el array de nominas
     const nomina = nominas.find((nomina) => nomina.id === nominaId);
+    console.log('ID recibido para editar:', nominaId); // Agregar esta línea para depurar
+
 
     if (nomina) {
         // Rellena el formulario de edición con los detalles del registro
         document.getElementById('nombre').value = nomina.nombre;
-        
+
         // Verifica y marca el radio button adecuado en función de si es Ingreso o Egreso
         if (nomina.ingreso === "Ingreso") {
             document.getElementById('Ingreso').checked = true;
         } else {
             document.getElementById('Egreso').checked = true;
         }
-        
+
         document.getElementById('salario').value = nomina.salario;
 
         // Guarda el ID del registro que se está editando
@@ -123,6 +147,7 @@ function editNomina(nominaId) {
     } else {
         console.error('Registro de nómina no encontrado');
     }
+
 }
 
 // Función para eliminar un registro de nómina y actualizar la tabla
