@@ -1,48 +1,46 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-    <title>Nomina</title>
-    <script src=".//main.js" type="module" defer></script>
+    <title>Tu Aplicación de Nómina</title>
+    <script src="./main.js" type="module" defer></script>
 </head>
 <body>
-     <h1>Nomina</h1>
-     <form >    
-        <!--ID , producto, precio, ACCIONES-->
-       
-        <input type="text" name="producto" placeholder="ingresa" required> <br>
-        <input type="number" name="precio" placeholder="ingresa" required> <br>
-        <input type="submit" value="calcular">
+    <!-- Formulario para ingresar datos -->
+    <h2>Ingresar Registro</h2>
+    <form id="nominaForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+        <br>
+        <label for="fechaIngreso">Fecha de Ingreso:</label>
+        <input type="date" id="fechaIngreso" required>
+        <br>
+        <label for="fechaEgreso">Fecha de Egreso:</label>
+        <input type="date" id="fechaEgreso">
+        <br>
+        <label for="salario">Salario:</label>
+        <input type="number" id="salario" required>
+        <br>
+        <button type="submit">Guardar</button>
     </form>
 
-
-
-     <table border="solid">
+    <!-- Tabla para mostrar los registros -->
+    <h2>Registros de Nómina</h2>
+    <table id="nominaTable">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>ACCIONES</th>
-                
-
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Fecha de Ingreso</th>
+                <th>Fecha de Egreso</th>
+                <th>Salario</th>
+                <th>Acciones</th>
             </tr>
         </thead>
-        <br>
-<tbody id="myData">
-    <tr>
-        <th>1</th>
-        <th>alimentacion</th>
-        <th>300</th>
-        <td><button style="background-color: blue; color: white;">editar</button> <button style="background-color: red; color: white; ">eliminar</button> </td>
-        
-
-    </tr>
-</tbody>
+        <tbody>
+            <!-- Los registros se llenarán dinámicamente aquí -->
+        </tbody>
     </table>
-
-
 </body>
 </html>
