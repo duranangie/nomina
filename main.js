@@ -1,6 +1,9 @@
 // URL de la API de MockAPI (reemplaza 'YOUR_API_ID' con tu identificación de proyecto)
 const apiUrl = 'https://650a3b71f6553137159c8368.mockapi.io';
 
+// Variable para almacenar el ID del registro que se está editando
+let editingNominaId = null;
+
 // Función para crear un nuevo registro en la nómina
 async function createNomina(nominaData) {
     try {
@@ -74,42 +77,62 @@ async function fillNominaTable() {
         row.innerHTML = `
             <td>${nomina.id}</td>
             <td>${nomina.nombre}</td>
-            <td>${nomina.fechaIngreso}</td>
-            <td>${nomina.fechaEgreso || '-'}</td>
+            <td>${nomina.ingreso || '-'}</td>
             <td>${nomina.salario}</td>
             <td>
-                <button onclick="editNomina(${nomina.id})">Editar</button>
-                <button onclick="deleteNominaRow(${nomina.id})">Eliminar</button>
+                <button onclick="editNomina(${nomina.id})" style="background-color: blue; color: white;">Editar</button>
+                <button class="delete-button" data-id="${nomina.id}" style="background-color: red; color: white;">Eliminar</button>
             </td>
         `;
         tableBody.appendChild(row);
     }
 
-
-
+    // Agregar evento a los botones de eliminar
+    const deleteButtons = document.querySelectorAll(".delete-button");
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const nominaId = button.getAttribute('data-id');
+            deleteNominaRow(nominaId);
+        });
+    });
 }
-
-
-
-
 
 // Función para editar un registro de nómina
 function editNomina(nominaId) {
-    console.log ("Editar registro con id");
-    // Implementa la lógica para editar un registro aquí
-    // Puedes usar una ventana modal o un formulario para editar
+    // Busca el registro con el ID correspondiente en el array de nominas
+    const nomina = nominas.find((nomina) => nomina.id === nominaId);
+
+    if (nomina) {
+        // Rellena el formulario de edición con los detalles del registro
+        document.getElementById('nombre').value = nomina.nombre;
+        
+        // Verifica y marca el radio button adecuado en función de si es Ingreso o Egreso
+        if (nomina.ingreso === "Ingreso") {
+            document.getElementById('Ingreso').checked = true;
+        } else {
+            document.getElementById('Egreso').checked = true;
+        }
+        
+        document.getElementById('salario').value = nomina.salario;
+
+        // Guarda el ID del registro que se está editando
+        editingNominaId = nominaId;
+
+        // Muestra el formulario de edición
+        document.getElementById('edit-form-container').style.display = 'block';
+    } else {
+        console.error('Registro de nómina no encontrado');
+    }
 }
 
 // Función para eliminar un registro de nómina y actualizar la tabla
-async function deleteNominaRow(nominaId){
-    console.log("eliminar registro con id ");
+async function deleteNominaRow(nominaId) {
     const success = await deleteNomina(nominaId);
-    if(success){
+    if (success) {
         fillNominaTable();
         console.log("Registro eliminado exitosamente!");
-
-    }else{
-        console.error("Error al eliminar el registro verifica nuevamente")
+    } else {
+        console.error("Error al eliminar el registro. Verifica nuevamente");
     }
 }
 
@@ -122,22 +145,34 @@ nominaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const nombre = document.getElementById('nombre').value;
-    const fechaIngreso = document.getElementById('fechaIngreso').value;
-    const fechaEgreso = document.getElementById('fechaEgreso').value;
+    const ingreso = document.getElementById('Ingreso').checked ? "Ingreso" : "Egreso";
     const salario = document.getElementById('salario').value;
 
     const newNominaData = {
         nombre,
-        fechaIngreso,
-        fechaEgreso,
+        ingreso,
         salario: parseFloat(salario),
     };
 
-    const createdNomina = await createNomina(newNominaData);
-    if (createdNomina) {
-        fillNominaTable();
-        console.log('Registro de nómina creado:', createdNomina);
+    if (editingNominaId) {
+        // Si estamos editando, actualizamos el registro
+        const updatedNomina = await updateNomina(editingNominaId, newNominaData);
+        if (updatedNomina) {
+            fillNominaTable();
+            console.log('Registro de nómina actualizado:', updatedNomina);
+        }
+        // Limpiar el formulario y restablecer el ID de edición
+        nominaForm.reset();
+        editingNominaId = null;
+        document.getElementById('edit-form-container').style.display = 'none';
+    } else {
+        // Si no estamos editando, creamos un nuevo registro
+        const createdNomina = await createNomina(newNominaData);
+        if (createdNomina) {
+            fillNominaTable();
+            console.log('Registro de nómina creado:', createdNomina);
+        }
+        // Limpiar el formulario
+        nominaForm.reset();
     }
-    // Limpiar el formulario
-    nominaForm.reset();
 });
