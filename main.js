@@ -18,7 +18,7 @@ async function createNomina(nominaData) {
     });
     //obtener la respuesta de la api y la convierte en formato JSON
     const data = await response.json();
-    //retorna los datos del nuevo registro de nomina creado
+    //retorna los datos del nuevo registro de nomina creado :)
     return data;
   } catch (error) {
     //en caso de error, mostrar un mensaje de error en la consola :)
