@@ -1,3 +1,16 @@
+body{
+    background-color: whitesmoke;    
+}
+
+h2{
+    text-align: center;
+}
+
+#nominaForm{
+
+    text-align: center;
+}
+
 .edit-button{
     color: #fff;
     background-color: blue;
@@ -8,3 +21,4 @@
     color: #fff;
     background-color: red;
 }
+
