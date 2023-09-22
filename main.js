@@ -1,12 +1,14 @@
-// URL de la API de MockAPI (reemplaza 'YOUR_API_ID' con tu identificación de proyecto)
+//url de la mockapi donde se obtiene y se envian datos de nomina
 const apiUrl = 'https://650a3b71f6553137159c8368.mockapi.io';
-
-// Variable para almacenar el ID del registro que se está editando
+//variable para almacenar el if del registro que se esta editando
 let editingNominaId = null;
+//Arreglo para almacenar los datos de las nominas obtenidas de mockapi
 let nominas = [];
-// Función para crear un nuevo registro en la nómina
+
+//funcion asincronica para crear un nuevo registro de nomina
 async function createNomina(nominaData) {
     try {
+        //realizar solicitudes de post a mockapi para crear registros en nomina
         const response = await fetch(`${apiUrl}/nomina`, {
             method: 'POST',
             headers: {
@@ -14,28 +16,36 @@ async function createNomina(nominaData) {
             },
             body: JSON.stringify(nominaData),
         });
+        //obtener la respuesta de la api y la convierte en formato JSON
         const data = await response.json();
+        //retorna los datos del nuevo registro de nomina creado
         return data;
     } catch (error) {
+        //en caso de error, mostrar un mensaje de error en la consola :)
         console.error('Error al crear el registro de nómina:', error);
     }
 }
 
-// Función para obtener todos los registros de la nómina
+//funcion asincronica para obtener todos los regisrtos de nomina desde la api
 async function getNominas() {
     try {
+        //realizar una solicitud get a la api para obtener los registros de nomina
         const response = await fetch(`${apiUrl}/nomina`);
+        //obtiene la respuesta de la api y la convierte a formato json
         const data = await response.json();
-        console.log('Datos de nominas obtenidos:', data); // Agregar esta línea para depurar
+        //muestra los datos obtenidos en la consola
+        console.log('Datos de nominas obtenidos:', data);
+        //retorna os datos de la nomina
         return data;
     } catch (error) {
         console.error('Error al obtener los registros de nómina:', error);
     }
 }
 
-// Función para actualizar un registro de nómina
+//funcion asincronica para actualizar un registro de nomina existente
 async function updateNomina(nominaId, updatedData) {
     try {
+        //realiza una solicitud put a la api para actualizar un registro de momina
         const response = await fetch(`${apiUrl}/nomina/${nominaId}`, {
             method: 'PUT',
             headers: {
@@ -43,23 +53,27 @@ async function updateNomina(nominaId, updatedData) {
             },
             body: JSON.stringify(updatedData),
         });
+        //obtiene la respuesta de la api y la convierte en formato JSON
         const data = await response.json();
+        //retorna los datos de nomina actualizados
         return data;
     } catch (error) {
         console.error('Error al actualizar el registro de nómina:', error);
     }
 }
 
-// Función para eliminar un registro de nómina
+//funcion asincronica para eliminar un registro de nomina
 async function deleteNomina(nominaId) {
     try {
+        //realiza una solicitud DELETE a la api para eliminar un registro
         const response = await fetch(`${apiUrl}/nomina/${nominaId}`, {
             method: 'DELETE',
         });
+        //se verifica si la eliminacion fue exitosa codigo de respuesta 204
         if (response.status === 204) {
-            return true; // Éxito
+            return true; //exito :)
         } else {
-            return false; // Falló la eliminación
+            return false; //fallo :(
         }
     } catch (error) {
         console.error('Error al eliminar el registro de nómina:', error);
@@ -67,14 +81,19 @@ async function deleteNomina(nominaId) {
     }
 }
 
-// Función para llenar la tabla con los registros de nómina
+
+//funcion asincronica para llenar la tabla htmlcon los requisitos de nomina
 async function fillNominaTable() {
     try {
+        //obtiene los datos de la nominas desde la api
         nominas = await getNominas();
+        //muestra datos en consola
         console.log('Nominas cargadas:', nominas);
+        //selecciona el cuerpo de la tabla en el doc html
         const tableBody = document.querySelector('#nominaTable tbody');
+        //limpia el contenido actual de la tabla
         tableBody.innerHTML = '';
-
+        //interar los registros y crear filas en la tabla
         for (const nomina of nominas) {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -83,14 +102,15 @@ async function fillNominaTable() {
                 <td>${nomina.ingreso || '-'}</td>
                 <td>${nomina.salario}</td>
                 <td>
-                <button data-id="${nomina.id}" class="edit-button" style="background-color: blue; color: white;">Editar</button>
-                <button data-id="${nomina.id}" class="delete-button" style="background-color: red; color: white;">Eliminar</button>
+                    <button data-id="${nomina.id}" class="edit-button" style="background-color: blue; color: white;">Editar</button>
+                    <button data-id="${nomina.id}" class="delete-button" style="background-color: red; color: white;">Eliminar</button>
                 </td>
             `;
+            //agregar fila a la tabla
             tableBody.appendChild(row);
         }
 
-        // Agregar evento a los botones de eliminar
+        //agregar eventos de click a los botones de eliminar
         const deleteButtons = document.querySelectorAll(".delete-button");
         deleteButtons.forEach((button) => {
             button.addEventListener('click', () => {
@@ -99,8 +119,8 @@ async function fillNominaTable() {
             });
         });
 
-   
-        // Agregar evento a los botones de editar
+        //agregar eventos de click a los botones de editar
+
         const editButtons = document.querySelectorAll(".edit-button");
         editButtons.forEach((button) => {
             button.addEventListener('click', () => {
@@ -109,70 +129,65 @@ async function fillNominaTable() {
                 editNomina(nominaId);
             });
         });
-
-
+    
     } catch (error) {
         console.error('Error al obtener las nominas:', error);
     }
 }
 
-
-
-
-// Función para editar un registro de nómina
+//funcion para editar registro
 function editNomina(nominaId) {
-    // Busca el registro con el ID correspondiente en el array de nominas
+    //encuentra el registro con el id
     const nomina = nominas.find((nomina) => nomina.id === nominaId);
-    console.log('ID recibido para editar:', nominaId); // Agregar esta línea para depurar
-
+    console.log('ID recibido para editar:', nominaId);
 
     if (nomina) {
-        // Rellena el formulario de edición con los detalles del registro
-        document.getElementById('nombre').value = nomina.nombre;
+        //rellena el formulario de edicion con los datos del registr
+        document.querySelector('#nombre').value = nomina.nombre;
+        const ingresoRadioButton = document.querySelector('#Ingreso');
+        const egresoRadioButton = document.querySelector('#Egreso');
 
-        // Verifica y marca el radio button adecuado en función de si es Ingreso o Egreso
         if (nomina.ingreso === "Ingreso") {
-            document.getElementById('Ingreso').checked = true;
+            ingresoRadioButton.checked = true;
         } else {
-            document.getElementById('Egreso').checked = true;
+            egresoRadioButton.checked = true;
         }
 
-        document.getElementById('salario').value = nomina.salario;
-
-        // Guarda el ID del registro que se está editando
+        document.querySelector('#salario').value = nomina.salario;
+        //establece el id del registro que se esta editando
         editingNominaId = nominaId;
-
-        // Muestra el formulario de edición
-        document.getElementById('edit-form-container').style.display = 'block';
+        //mostrar formulario de edicionn
+        document.querySelector('#edit-form-container').style.display = 'block';
     } else {
         console.error('Registro de nómina no encontrado');
     }
-
 }
 
-// Función para eliminar un registro de nómina y actualizar la tabla
+//funcion asincronica para eliminar un registro de nomina y actualizar la tabla
 async function deleteNominaRow(nominaId) {
     const success = await deleteNomina(nominaId);
     if (success) {
+        //si fue exitosa el delete actualiza la pagina
         fillNominaTable();
         console.log("Registro eliminado exitosamente!");
     } else {
         console.error("Error al eliminar el registro. Verifica nuevamente");
     }
 }
-
-// Llamar a la función para llenar la tabla al cargar la página
+//llena la tabla de nominas al cargar la apgina
 fillNominaTable();
 
-// Agregar evento al formulario para crear registros
-const nominaForm = document.getElementById('nominaForm');
+//captura el formulario de nomina y agrega un evento de submit
+const nominaForm = document.querySelector('#nominaForm');
 nominaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const nombre = document.getElementById('nombre').value;
-    const ingreso = document.getElementById('Ingreso').checked ? "Ingreso" : "Egreso";
-    const salario = document.getElementById('salario').value;
+    //obtiene los valores del formulario
+    const nombre = document.querySelector('#nombre').value;
+    const ingreso = document.querySelector('#Ingreso').checked ? "Ingreso" : "Egreso";
+    const salario = document.querySelector('#salario').value;
 
+    //crea un objeto con los datos del nuevo registro de nomina
     const newNominaData = {
         nombre,
         ingreso,
@@ -180,24 +195,27 @@ nominaForm.addEventListener('submit', async (e) => {
     };
 
     if (editingNominaId) {
-        // Si estamos editando, actualizamos el registro
+        //si se esta editando un registro de exitente ,actualiza
         const updatedNomina = await updateNomina(editingNominaId, newNominaData);
         if (updatedNomina) {
+            //si la edicion se realizo actualiza la tabla y muestra un mensaje 
             fillNominaTable();
             console.log('Registro de nómina actualizado:', updatedNomina);
         }
-        // Limpiar el formulario y restablecer el ID de edición
+        //reinicia el formulario y el id de edicion
         nominaForm.reset();
         editingNominaId = null;
-        document.getElementById('edit-form-container').style.display = 'none';
+        //oculta formulario de edicion
+        document.querySelector('#edit-form-container').style.display = 'none';
     } else {
-        // Si no estamos editando, creamos un nuevo registro
+        //si esta creado un nuevo registro , rea registro
         const createdNomina = await createNomina(newNominaData);
         if (createdNomina) {
+            //si se creo actualiza tabla y muestre msj por consola
             fillNominaTable();
             console.log('Registro de nómina creado:', createdNomina);
         }
-        // Limpiar el formulario
+        //reiniciar formulario
         nominaForm.reset();
     }
 });
