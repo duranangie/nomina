@@ -1,5 +1,5 @@
 //url de la mockapi donde se obtiene y se envian datos de nomina
-const apiUrl = "https://650a3b71f6553137159c8368.mockapi.io";
+const apiUrl = "http://localhost:3000/nomina";
 //variable para almacenar el if del registro que se esta editando
 let editingNominaId = null;
 //Arreglo para almacenar los datos de las nominas obtenidas de mockapi
@@ -9,7 +9,7 @@ let nominas = [];
 async function createNomina(nominaData) {
   try {
     //realizar solicitudes de post a mockapi para crear registros en nomina
-    const response = await fetch(`${apiUrl}/nomina`, {
+    const response = await fetch(`${apiUrl}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ async function createNomina(nominaData) {
 async function getNominas() {
   try {
     //realizar una solicitud get a la api para obtener los registros de nomina
-    const response = await fetch(`${apiUrl}/nomina`);
+    const response = await fetch(`${apiUrl}`);
     //obtiene la respuesta de la api y la convierte a formato json
     const data = await response.json();
     //muestra los datos obtenidos en la consola
@@ -46,7 +46,7 @@ async function getNominas() {
 async function updateNomina(nominaId, updatedData) {
   try {
     //realiza una solicitud put a la api para actualizar un registro de momina
-    const response = await fetch(`${apiUrl}/nomina/${nominaId}`, {
+    const response = await fetch(`${apiUrl}/${nominaId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ async function updateNomina(nominaId, updatedData) {
 async function deleteNomina(nominaId) {
   try {
     //realiza una solicitud DELETE a la api para eliminar un registro
-    const response = await fetch(`${apiUrl}/nomina/${nominaId}`, {
+    const response = await fetch(`${apiUrl}/${nominaId}`, {
       method: "DELETE",
     });
     //se verifica si la eliminacion fue exitosa codigo de respuesta 204
@@ -80,8 +80,6 @@ async function deleteNomina(nominaId) {
     return false;
   }
 }
-
-    
 
 //funcion asincronica para llenar la tabla htmlcon los requisitos de nomina
 async function fillNominaTable() {
@@ -140,10 +138,12 @@ async function fillNominaTable() {
 }
 
 //funcion para editar registro
-function editNomina(nominaId) {
+async function editNomina(nominaId) {
   //encuentra el registro con el id
-  const nomina = nominas.find((nomina) => nomina.id === nominaId);
-  console.log("ID recibido para editar:", nominaId);
+  nominas = await getNominas();
+  console.log(nominas);
+  let nomina = nominas.find((nomina) => nomina.id == nominaId);
+  // console.log("ID recibido para editar:", nominaId);
 
   if (nomina) {
     //rellena el formulario de edicion con los datos del registr
@@ -161,7 +161,6 @@ function editNomina(nominaId) {
     //establece el id del registro que se esta editando
     editingNominaId = nominaId;
     //mostrar formulario de edicionn
-    document.querySelector("#edit-form-container").style.display = "block";
   } else {
     console.error("Registro de nómina no encontrado");
   }
