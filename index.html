@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +23,13 @@
         <label for="salario">Salario:</label>
         <input type="number" id="salario" required>
         <br>
+        <!-- Agrega elementos HTML para mostrar los totales -->
+        <div id="totals">
+            <p>Total de Ingresos: <span id="totalIngresos">0</span></p>
+            <p>Total de Egresos: <span id="totalEgresos">0</span></p>
+            <p>Total: <span id="diferencia">0</span></p>
+        </div>
+
         <button type="submit">Guardar</button>
     </form>
 
@@ -44,4 +50,5 @@
         </tbody>
     </table>
 </body>
+
 </html>
