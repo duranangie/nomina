@@ -20,6 +20,7 @@ async function createNomina(nominaData) {
     const data = await response.json();
     //retorna los datos del nuevo registro de nomina creado :)
     return data;
+  
   } catch (error) {
     //en caso de error, mostrar un mensaje de error en la consola :)
     console.error("Error al crear el registro de nómina:", error);
@@ -80,11 +81,28 @@ async function deleteNomina(nominaId) {
     return false;
   }
 }
+// Función para calcular los totales de ingresos, egresos y la diferencia
+function calcularTotales() {
+  const totalIngresos = nominas
+    .filter((nomina) => nomina.ingreso === "Ingreso")
+    .reduce((acc, nomina) => acc + nomina.salario, 0);
+  const totalEgresos = nominas
+    .filter((nomina) => nomina.ingreso === "Egreso")
+    .reduce((acc, nomina) => acc + nomina.salario, 0);
+  const diferencia = totalIngresos - totalEgresos;
+
+  // Actualiza los elementos HTML con los totales calculados
+  document.getElementById("totalIngresos").textContent = totalIngresos.toFixed(2);
+  document.getElementById("totalEgresos").textContent = totalEgresos.toFixed(2);
+  document.getElementById("diferencia").textContent = diferencia.toFixed(2);
+}
 
     
 
 //funcion asincronica para llenar la tabla htmlcon los requisitos de nomina
 async function fillNominaTable() {
+  // Obtiene los datos de las nominas desde la API
+  nominas = await getNominas();
   try {
     //obtiene los datos de la nominas desde la api
     nominas = await getNominas();
@@ -114,6 +132,8 @@ async function fillNominaTable() {
       //agregar fila a la tabla
       tableBody.appendChild(row);
     }
+
+    calcularTotales();
 
     //agregar eventos de click a los botones de eliminar
     const deleteButtons = document.querySelectorAll(".delete-button");
@@ -225,3 +245,5 @@ nominaForm.addEventListener("submit", async (e) => {
     nominaForm.reset();
   }
 });
+
+
