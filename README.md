@@ -79,9 +79,11 @@ bd: https://650a3b71f6553137159c8368.mockapi.io/nomina
 
 ![Alt text](image-2.png)
 
-- Editar 
+ 
+-tabla de visualizacion
 
 ![Alt text](image-3.png)
 
+-pagina completa
 
 ![Alt text](image-4.png)
