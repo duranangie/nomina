@@ -77,10 +77,11 @@ bd: https://650a3b71f6553137159c8368.mockapi.io/nomina
 
 -crear 
 
-![Alt text](image-1.png)
+![Alt text](image-2.png)
 
 - Editar 
 
-![Alt text](image.png)
+![Alt text](image-3.png)
 
 
+![Alt text](image-4.png)
