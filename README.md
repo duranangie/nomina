@@ -1,76 +1,41 @@
-# README - Registro de Nómina Web App
+# Registro de Nómina
 
-Esta es la documentación para la página web "Registro de Nómina", una aplicación web simple que te permite gestionar registros de nómina. Aquí encontrarás información sobre cómo funciona la página, cómo interactuar con ella y los principales componentes de su código fuente.
+Este proyecto web permite gestionar registros de nómina a través de una interfaz de usuario. Los registros de nómina se pueden crear, editar y eliminar utilizando una API simulada como backend. El proyecto está implementado en JavaScript y utiliza JSON para la comunicación con la API y el almacenamiento de datos.
 
+## Características Principales
 
-# README - Registro de Nómina Web App
-
-Esta es la documentación para la página web "Registro de Nómina", una aplicación web simple que te permite gestionar registros de nómina. Aquí encontrarás información sobre cómo funciona la página, cómo interactuar con ella y los principales componentes de su código fuente.
-
-## Contenido
-
-1. [Introducción](#introducción)
-2. [Características](#características)
-3. [Instrucciones de Uso](#instrucciones-de-uso)
-4. [Estructura del Código](#estructura-del-código)
-5. [Recursos Externos](#recursos-externos)
-6. [Licencia](#licencia)
-
-## Introducción
-
-La página web "Registro de Nómina" es una herramienta básica para registrar y gestionar información sobre nóminas. Permite agregar, editar y eliminar registros de nómina y muestra los datos en una tabla interactiva.
-
-## Características
-
-- Ingresar un registro de nómina con nombre, tipo de ingreso/egreso y salario.
-- Editar registros existentes.
+- Crear un nuevo registro de nómina con nombre, tipo (ingreso o egreso) y salario.
+- Editar un registro de nómina existente.
 - Eliminar registros de nómina.
-- Visualizar los registros en una tabla interactiva.
+- Visualizar una lista de registros de nómina en una tabla.
 
-## Instrucciones de Uso
+## Configuración
 
-Para utilizar la aplicación, sigue estos pasos:
+Antes de ejecutar la aplicación, asegúrate de tener [MockAPI](https://github.com/typicode/json-server) configurado y ejecutándose en `http://localhost:3000/nomina` o actualiza la variable `apiUrl` en el código si tu API está en una ubicación diferente.
 
-1. Clona o descarga el repositorio en tu máquina local.
+## Uso
 
-2. Abre el archivo `index.html` en tu navegador web.
+1. Abre el archivo `index.html` en tu navegador web.
 
-3. Completa el formulario "Ingresar Registro" con los detalles de la nómina, incluyendo nombre, tipo de ingreso/egreso y salario.
+2. Utiliza el formulario en la parte superior de la página para crear nuevos registros de nómina. Ingresa el nombre del empleado, selecciona si es un ingreso o egreso, y especifica el salario. Luego, haz clic en "Guardar".
 
-4. Haz clic en el botón "Guardar" para agregar un nuevo registro de nómina. El registro aparecerá en la tabla "Registros de Nómina".
+3. Los registros de nómina se mostrarán en la tabla en la parte inferior de la página. Puedes editar o eliminar registros haciendo clic en los botones correspondientes en la tabla.
 
-5. Para editar un registro existente, haz clic en el botón "Editar" correspondiente al registro que deseas modificar. Los datos del registro se cargarán en el formulario de ingreso.
+4. Para editar un registro de nómina, haz clic en el botón "Editar" en la fila del registro que deseas modificar. Los detalles del registro se cargarán en el formulario para su edición.
 
-6. Realiza las ediciones necesarias y haz clic en el botón "Guardar" para actualizar el registro.
+5. Para eliminar un registro de nómina, haz clic en el botón "Eliminar" en la fila del registro que deseas eliminar. Se te pedirá confirmación antes de eliminar el registro.
 
-7. Para eliminar un registro, haz clic en el botón "Eliminar" correspondiente al registro que deseas eliminar.
+## Estructura del Proyecto
 
-8. Los registros se mostrarán en la tabla, y podrás ver su ID, nombre, tipo de ingreso/egreso y salario.
+- `index.html`: El archivo HTML que define la estructura de la página web y contiene los formularios y tablas.
+- `main.js`: El archivo JavaScript que contiene la lógica de la aplicación, incluyendo las funciones para interactuar con la API y actualizar la interfaz de usuario.
+- `style.css`: El archivo CSS que define el estilo y diseño de la página web.
+- `db.json`: El archivo JSON utilizado como base de datos simulada para almacenar los registros de nómina.
 
-## Estructura del Código
+## Contribuciones
 
-El código fuente de la aplicación se divide en dos partes principales: HTML y JavaScript. A continuación, se presenta una breve descripción de cada archivo:
+Si deseas contribuir a este proyecto, ¡siéntete libre de hacerlo! Puedes enviar solicitudes de extracción (pull requests) para mejoras o correcciones.
 
-- `index.html`: Define la estructura HTML de la página web y contiene el formulario de ingreso y la tabla de registros.
-
-- `main.js`: Contiene la lógica de la aplicación, incluyendo la gestión de eventos, las llamadas a la API mock, la creación, edición y eliminación de registros, así como la actualización de la tabla de registros.
-
-- `style.css`: Archivo de hojas de estilo que define la apariencia visual de la página web.
-
-
-## Como utilizar la aplicacion
-
-Ingresamos a el link https://duranangie.github.io/nomina/ 
-
-1. Se ingresa el nombre de la persona que registra
-
-2. Especifica si es ingreso o engreso.
-
-3. Ingresa el monto a guardar.
-
-4. puede editar o eliminar los datos guardados que aparecen en la tabla dando click en las opciones mencionadas.
-
-bd: https://650a3b71f6553137159c8368.mockapi.io/nomina
 
 
 ## Aplicacion
