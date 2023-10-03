@@ -11,7 +11,41 @@ Este proyecto web permite gestionar registros de nómina a través de una interf
 
 ## Configuración
 
-Antes de ejecutar la aplicación, asegúrate de tener [MockAPI](https://github.com/typicode/json-server) configurado y ejecutándose en `http://localhost:3000/nomina` o actualiza la variable `apiUrl` en el código si tu API está en una ubicación diferente.
+Antes de ejecutar la aplicación, asegúrate de tener [](https://github.com/typicode/json-server) configurado y ejecutándose en `http://localhost:3000/nomina` o actualiza la variable `apiUrl` en el código si tu API está en una ubicación diferente.
+
+## Instalar
+
+Este proyecto es un servidor de nómina construido con Node.js. A continuación, se describen los pasos para instalar y ejecutar el servidor.
+
+## Requisitos previos
+
+Asegúrate de tener las siguientes herramientas instaladas en tu sistema:
+
+- Node.js: Descárgalo e instálalo desde [https://nodejs.org/](https://nodejs.org/)
+
+## Instalación
+
+1. Clona este repositorio en tu máquina local:
+
+   ```bash
+   git clone https://github.com/duranangie/nomina.git
+
+2. En la consola ingresa los siguientes comandandos:
+
+   ```bash
+   cd nomina
+
+
+3. ingresa este comando para iniciar el package-lock.json
+   ```bash
+   npm init -y
+   
+3. ingresa este comando para descarar la carpeta node_modules
+
+   ```bash
+   npm install
+
+  
 
 ## Uso
 
